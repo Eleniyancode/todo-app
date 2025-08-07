@@ -1,3 +1,4 @@
+import iconCheck from '/src/images/icon-check.svg'
 import AllTodoView from "./allTodoView";
 
 class CompletedTodoView extends AllTodoView {
@@ -25,7 +26,7 @@ class CompletedTodoView extends AllTodoView {
         />
         
         <!-- Checkmark Icon -->
-        <img  class="absolute left-1 top-2 opacity-0 peer-checked:opacity-100 transition-opacity" src="./src/images/icon-check.svg" alt="icon-check">
+        <img  class="absolute left-1 top-2 opacity-0 peer-checked:opacity-100 transition-opacity" src="${iconCheck}" alt="icon-check">
         <span class="todo-text ml-2 text-gray-300 dark:text-gray-500 transition-colors duration-300">${todo.text}</span>
         </label>
         </div>

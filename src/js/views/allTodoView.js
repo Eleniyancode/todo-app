@@ -1,4 +1,5 @@
 import iconDelete from '/src/images/icon-cross.svg'
+import iconCheck from '/src/images/icon-check.svg'
 
 export default class AllTodoView {
     _parentElement = document.getElementById('todo-list')
@@ -24,7 +25,7 @@ export default class AllTodoView {
         />
         
         <!-- Checkmark Icon -->
-        <img  class="absolute left-1 top-2 opacity-0 peer-checked:opacity-100 transition-opacity" src="./src/images/icon-check.svg" alt="icon-check">
+        <img  class="absolute left-1 top-2 opacity-0 peer-checked:opacity-100 transition-opacity" src="${iconCheck}" alt="icon-check">
         <span class="todo-text ${todo.completed ? 'line-through' : ''} ml-2  ${todo.completed ? 'text-gray-200' : ''} dark:${todo.completed ? 'text-gray-500' : ''} transition-colors duration-300"> ${todo.text}</span>
         </label>
         <img class="delete-btn cursor-pointer" src="${iconDelete}" alt="icon-delete" />

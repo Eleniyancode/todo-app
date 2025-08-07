@@ -1,4 +1,6 @@
 import "../../src/style.css";
+import iconMoon from "/src/images/icon-sun.svg"
+import iconSun from '/src/images/icon-sun.svg'
 import * as model from "./model";
 import activeTodoView from "./views/activeTodoView";
 import completedTodoView from "./views/completedTodoView";
@@ -20,10 +22,10 @@ themeToggleBtn.addEventListener('click', () => {
     console.log('clicked');
     html.classList.toggle('dark');
     if(html.classList.contains('dark')) {
-      themeToggleBtn.src = './src/images/icon-sun.svg'
+      themeToggleBtn.src = `${iconSun}`
         localStorage.setItem('theme', 'dark')
     }else {
-      themeToggleBtn.src = './src/images/icon-moon.svg'
+      themeToggleBtn.src = `${iconMoon}`
         localStorage.setItem('theme', 'light')
     }
 })
