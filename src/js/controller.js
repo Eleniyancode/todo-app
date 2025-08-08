@@ -6,6 +6,35 @@ import activeTodoView from "./views/activeTodoView";
 import completedTodoView from "./views/completedTodoView";
 import AllTodoView from "./views/allTodoView";
 
+// // handling drag and drop
+function reorderTodo(draggedId, targetId) {
+  const draggedIndex = model.state.allTodo.findIndex(todo => todo.id === draggedId);
+  const targetIndex = model.state.allTodo.findIndex(todo => todo.id === targetId);
+
+  if (draggedIndex === -1 || targetIndex === -1) return
+
+  const [movedItem] = model.state.allTodo.splice(draggedIndex, 1);
+  model.state.allTodo.splice(targetIndex, 0, movedItem);
+
+  allTodoView.render(model.state.allTodo);
+}
+
+//expose the above function to view
+window.controller = {
+  reorderTodo,
+};
+
+// export function reorderTodos(draggedId, targetId) {
+//   const dragIndex = model.state.allTodo.findIndex(todo => todo.id === draggedId);
+//   const targetIndex = model.state.allTodo.findIndex(todo => todo.id === targetId);
+//   const [movedItem] = model.state.allTodo.splice(dragIndex, 1);
+//   model.state.allTodo.splice(targetIndex, 0, movedItem);
+
+//   allTodoView.render(model.state.allTodo);
+//   allTodoView._HandleDragandDropListeners()
+
+// }
+
 // creating an instance of the all todo view class
 const allTodoView = new AllTodoView();
 

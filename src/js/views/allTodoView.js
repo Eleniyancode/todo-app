@@ -5,7 +5,12 @@ export default class AllTodoView {
     _parentElement = document.getElementById('todo-list')
      _todoParentEl = document.querySelector('.todo-div')
      _clearBtn = document.getElementById('clear-btn')
+     _dragSrcEl = null;
 
+    //  constructor() {
+    //   super();
+    //   this._HandleDragandDropListeners()
+    //  }
     render(todos) {
     if (!todos) return;
       // console.log(todos);
@@ -14,9 +19,9 @@ export default class AllTodoView {
     todos.forEach(todo => {
       const markup = `
         <div
-         data-id="${todo.id}" class="todo-div text-black dark:text-white bg-white dark:bg-purple-950 p-5 rounded flex items-center justify-between border-b-1 border-b-gray-300 transition-colors duration-300"
+         draggable="true" data-id="${todo.id}" class="todo-div cursor-move text-black dark:text-white bg-white dark:bg-purple-950 p-5 rounded flex items-center justify-between border-b-1 border-b-gray-300 transition-colors duration-300"
         >
-        <label data-id="${todo.id}" class="relative flex items-center cursor-pointer">
+        <label  data-id="${todo.id}" class="relative flex items-center cursor-pointer">
         <input
         id="todo-checkbox"
         type="checkbox"
@@ -33,7 +38,81 @@ export default class AllTodoView {
       `
       this._parentElement.insertAdjacentHTML('beforeend', markup);
     })
+
+    this._addDragAndDropHnadlers();
   }
+
+  _addDragAndDropHnadlers() {
+    let dragSrcEl = null
+
+    const items = this._parentElement.querySelectorAll('.todo-div');
+    items.forEach((item) => {
+      item.addEventListener('dragstart', function(e) {
+        dragSrcEl = this;
+        e.dataTransfer.setData('text/plain', this.dataset.id);
+        this.classList.add('opacity-50');
+      })
+        item.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+        })
+
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+
+          const draggedId = e.dataTransfer.getData('text/plain');
+          const targetId = this.dataset.id;
+
+          if (draggedId === targetId) return;
+
+          //call a method on controller to reorder
+          window.controller.reorderTodo(draggedId, targetId);
+        })
+
+        item.addEventListener('dragend', function() {
+          this.classList.remove('opacity-50')
+        })
+      })
+  }
+  // handlerStart(e) {
+  //   this._dragSrcEl = this;
+  //   e.dataTransfer.effectAllowed = 'move';
+  //   e.dataTransfer.setData('text/plain', this.dataset.id)
+  //   this.classList.add('opacity-50');
+  // }
+
+  // handleDragOver(e) {
+  //   e.preventDefault()
+  //   e.dataTransfer.dropEffect = 'move';
+  //   return false
+  // }
+
+  // handleDrop(e) {
+  //   e.preventDefault();
+
+  //   const draggedId = e.dataTransfer.getData('text/plain');
+  //   const targetId = this.dataset.id;
+
+  //   if(draggedId === targetId) return;
+
+  //   window.controller.reorderTodos(draggedId, targetId);
+
+  // }
+
+  // handleDragEnd() {
+  //   this.classList.remove('opacity-50')
+  // }
+
+  // _HandleDragandDropListeners() {
+  //   const items = document.querySelectorAll('.todo-div');
+  //   items.forEach((item) => {
+  //     item.addEventListener('dragstart', this.handlerStart)
+  //     item.addEventListener('dragover', this.handleDragOver)
+  //     item.addEventListener('drop', this.handleDrop)
+  //     item.addEventListener('dragend', this.handleDragEnd);
+
+  //   })
+  // }
 
     addHandlerToggle(handler) {
         this._parentElement.addEventListener('click', function(e) {
